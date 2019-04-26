@@ -29,6 +29,8 @@ function loginCall(email, password, cbk) {
 }
 
 function loginOutCall(cbk) {
+    var url = API_BASE_PATH + "/domain/logout/" + API_TOKEN;
+    console.log(url);
     $.ajax({
         url: API_BASE_PATH + "/domain/logout/" + API_TOKEN,
         type: 'GET',
@@ -86,11 +88,15 @@ function getDomainProperty(name, cbk) {
 
 function searchByQuery(id, type, data, cbk) {
 
+    console.log(id);
+    console.log(type);
+    console.log(data);
+
     if(id){
         data['specId'] = id
     }
     data['type'] = type;
-
+    console.log(data);
     $.ajax({
         url: API_BASE_PATH + "/elastic/search/query/" + API_TOKEN,
         data: JSON.stringify(data),
@@ -113,6 +119,7 @@ function searchByQuery(id, type, data, cbk) {
 //Record insert/update/delete
 
 function insertRecord(id, data,cbk){
+    console.log(JSON.stringify(data));
     $.ajax({
         url: API_BASE_PATH + "/record/insert/dynamic/" + API_TOKEN + '/' + id,
         data: JSON.stringify(data),

@@ -21,7 +21,7 @@ function login(){
         console.log(data);
         if(status){
             Cookies.set('session_obj', data);
-            //document.location = '/wash-management';
+            document.location = '/wash-management';
 
         }else{
             swal("Authentication Failed", "Incorrect Username/Password!", "danger");

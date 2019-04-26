@@ -14,9 +14,12 @@ Routes.prototype.init = function () {
     //Session check each routes
     var sessionCheck = function (req, res, next) {
         var sessionObj = req.cookies['session_obj'];
+        console.log(sessionObj);
         if (sessionObj) {
+            console.log("dashbord");
             next();
         } else {
+            console.log("login");
             res.redirect('/login');
         }
     };
@@ -48,6 +51,7 @@ Routes.prototype.init = function () {
 
     self.app.get('/login', function (req, res) {
         var sessionObj = req.cookies['session_obj'];
+        //console.log(sessionObj);
         if (sessionObj) {
             res.redirect('/wash-management');
         } else {

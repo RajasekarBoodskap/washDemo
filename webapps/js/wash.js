@@ -8,9 +8,30 @@ $(document).ready(function () {
     $(".leftMenu").removeClass('active')
     $(".records").addClass('active')
     loadorgmanagementList();
-   
+    addRowHandlers();
 
 });
+
+function addRowHandlers() {
+    var table = document.getElementById("orgmanagement1");
+    var rows = table.getElementsByTagName("tr");
+    for (i = 0; i < rows.length; i++) {
+        var currentRow = table.rows[i];
+        var createClickHandler = 
+            function(row) 
+            {
+                return function() { 
+                                        var cell = row.getElementsByTagName("td")[0];
+                                        var id = cell.innerHTML;
+                                        alert("id:" + id);
+                                 };
+            };
+
+        currentRow.onclick = createClickHandler(currentRow);
+    }
+}
+
+
 function loadorgmanagementList() {
 
 
@@ -125,11 +146,14 @@ var tableOption = {
         "query": JSON.stringify(queryParams),
         "params": []
     };
+    console.log(searchQuery);
     searchByQuery(wash_details, 'RECORD', searchQuery, function (status, data) {
         if (status) {
-
+            console.log(data);
             var resultData = searchQueryFormatter(data).data;
+            console.log(resultData);
             var resData = resultData['data'];
+            console.log(resData);
             tableOption['data'] = resData;
 
 
@@ -206,15 +230,15 @@ function adddetails() {
     var oa = $("#wash_stage").val();
     var op = $("#wash_lint").val();
     
-
+    bool_value = od == "true" ? true : false;
     var details = {
-        washid: oi,
+        washid: parseInt(oi),
         washname: on,
-        power: od,
+        power: bool_value,
         stage: oa,
-        lint: op
+        lint: parseInt(op)
     }
-
+    console.log(details);
     //var recordId = 10000;
     insertRecord(wash_details, details, function (status, data) {
         if (status) {
@@ -308,7 +332,7 @@ function edit(i, a, b, c, d, e) {
         }
 
         console.log(obj);
-
+        console.log(i);
         updateRecords(wash_details,i, obj,function( status, data){
             if(status){
              successMsg('Record Updated Successfully');
@@ -346,7 +370,8 @@ function updateRecords(rid, rkey, obj, cbk){
 
 
 function del(id, org) {
-   
+   console.log(org);
+   console.log(id);
     deleteRecord(wash_details, id, function (status, data) {
         
         
