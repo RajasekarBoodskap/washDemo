@@ -46,7 +46,9 @@ function loadorgmanagementList() {
             sTitle: 'Wash ID',
             orderable: false,
             mRender: function (data, type, row) {
-                return data ? data : "-";
+
+                var r = '<a  href="#" onclick="washingDetails(' + row['washid'] + '\'' + ')">'+'</a>' 
+                return data ? data : r;
 
             }
         },
@@ -75,8 +77,8 @@ function loadorgmanagementList() {
             orderable: false,
             mRender: function (data, type, row) {
 
-                return data ? data : "-";
-
+                return data ? data : r;
+                
             }
         },
         {
@@ -95,13 +97,10 @@ function loadorgmanagementList() {
             orderable: false,
             mRender: function (data, type, row) {
 
-                  var r = '<div class="dropdown">' +
-                    '<button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>' +
-                    '<div class="dropdown-menu">' +
-                    '<a class="dropdown-item" href="#" onclick="edit(' + '\'' + row["_id"] + '\'' + ', ' + '\'' + row['washid'] + '\'' + ', ' + '\'' + row['washname'] + '\'' + ',' + '\'' + row['power'] + '\'' + ',' + '\'' + row['stage'] + '\'' + ', ' + '\'' + row['lint'] + '\'' + '\)"><i class="fa fa-edit"></i>  Edit</a>' +
-                    '<a class="dropdown-item" href="#" onclick="del(' + '\'' + row["_id"] + '\'' + ', ' + '\'' + row['washid'] + '\'' + ')"><i class="fa fa-trash"></i>  Delete</a>' +
-                    '</div>' +
-                    '</div>'
+                  var r = '<span>'+'<a class="" style="cursor:pointer;color:#007bff;"  data-toggle="modal" data-target="#washdetails"  href="#" onclick="edit(' + '\'' + row["_id"] + '\'' + ', ' + '\'' + row['washid'] + '\'' + ', ' + '\'' + row['washname'] + '\'' + ',' + '\'' + row['power'] + '\'' + ',' + '\'' + row['stage'] + '\'' + ', ' + '\'' + row['lint'] + '\'' + '\)"><i class="fa fa-edit"></i>  Edit</a>' +
+                    '<a class="" href="#" style="margin-left: 15px;color:red;cursor:pointer" onclick="del(' + '\'' + row["_id"] + '\'' + ', ' + '\'' + row['washid'] + '\'' + ')"><i class="fa fa-trash"></i>  Delete</a>'+
+                    '<a class="" href="#" style="margin-left: 15px;color:gray;cursor:pointer;" onclick="washingDetails(' + '\'' + row["_id"] + '\'' + ', ' + '\'' + row['washid'] + '\'' + ', ' + '\'' + row['washname'] + '\'' + ',' + '\'' + row['power'] + '\'' + ',' + '\'' + row['stage'] + '\'' + ', ' + '\'' + row['lint'] + '\'' +')"><i class="icon-eye2"></i>  Wash Details</a>'+'</span>'
+                   
 
 
 
@@ -386,5 +385,49 @@ function del(id, org) {
         }
     })
        tableOption['data']=resData;
+
+}
+
+function washingDetails(iw, aw, bw, cw, dw, ew){
+
+   // $("#washdetails form")[0].reset();
+
+
+    $("#washdetails").modal('show');
+   
+    
+    console.log("washing Data");
+    var washId = aw;
+    
+    $(".washingiid").html(washId);
+    var washName = bw;
+    $(".washinginame").html(washName);
+    var washPower = cw;
+    $(".washingipower").html(washPower);
+    var washStage = dw;
+    $(".washingistage").html(washStage);
+    var washLint = ew;
+    $(".washingilint").html(washLint);
+
+    if(washStage == "wash"){
+       
+        $(".dynamic_img img:last-child").remove();
+        $('<img src="https://api.boodskap.io/files/download/6fc962fb-18c4-42cf-a014-e24b2341c3f3/e83127d1-6717-429f-af25-f3030cc256aa">').appendTo(".dynamic_img");
+       
+    }else if(washStage == "rinse"){
+        $(".dynamic_img img:last-child").remove();
+        $('<img src="https://api.boodskap.io/files/download/6fc962fb-18c4-42cf-a014-e24b2341c3f3/a69e4965-e5cb-43c2-baf7-c516bf46638e">').appendTo(".dynamic_img");
+       
+    }else if(washStage == "spin"){
+        $(".dynamic_img img:last-child").remove();
+        $('<img src="https://api.boodskap.io/files/download/6fc962fb-18c4-42cf-a014-e24b2341c3f3/8055e2e4-3aad-43fd-b996-9328a8bd28b7">').appendTo(".dynamic_img");
+       
+    }else{
+        $(".dynamic_img img:last-child").remove();
+        $('<img src="https://api.boodskap.io/files/download/6fc962fb-18c4-42cf-a014-e24b2341c3f3/f1611e64-e462-4de5-9784-35ed5ec3fc09">').appendTo(".dynamic_img");
+       
+    }
+    
+
 
 }
